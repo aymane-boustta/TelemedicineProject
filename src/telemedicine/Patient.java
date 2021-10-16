@@ -13,10 +13,10 @@ import java.util.Date;
  * @author macbookair
  */
 public class Patient implements Serializable {
-    
+
     private static final long serialVersionUID = -1156840724257282729L;
     private Integer id;
-    private Integer name; 
+    private Integer name;
     private Integer surname;
     private Date dob;
     private String address;
@@ -38,5 +38,8 @@ public class Patient implements Serializable {
         this.sexe = sexe;
         this.doctor = doctor;
     }
-    
+
+    public void clasePrueba(Integer id) {
+
+    }
 }
