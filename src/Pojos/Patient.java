@@ -16,17 +16,18 @@ public class Patient implements Serializable {
 
     private static final long serialVersionUID = -1156840724257282729L;
     private Integer id;
-    private Integer name;
-    private Integer surname;
+    private String name;
+    private String surname;
     private Date dob;
     private String address;
     private String email;
     private String medicalHistory;
     private int age;
     private String sexe;
-    private Doctor doctor;
+    //private Doctor doctor;
+    private String doctor;
 
-    public Patient(Integer id, Integer name, Integer surname, Date dob, String address, String email, String medicalHistory, int age, String sexe, Doctor doctor) {
+    public Patient(Integer id, String name, String surname, Date dob, String address, String email, String medicalHistory, int age, String sexe, String doctor) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -39,7 +40,21 @@ public class Patient implements Serializable {
         this.doctor = doctor;
     }
 
-    public void clasePrueba(Integer id) {
-
+    //costructor sin Id,medicalHistory
+    public Patient(String name, String surname, Date dob, String address, String email, int age, String sexe, String doctor) {
+        this.name = name;
+        this.surname = surname;
+        this.dob = dob;
+        this.address = address;
+        this.email = email;
+        this.age = age;
+        this.sexe = sexe;
+        this.doctor = doctor;
     }
+
+    @Override
+    public String toString() {
+        return "Patient{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", dob=" + dob + ", address=" + address + ", email=" + email + ", medicalHistory=" + medicalHistory + ", age=" + age + ", sexe=" + sexe + ", doctor=" + doctor + '}';
+    }
+
 }
