@@ -5,6 +5,7 @@
  */
 package GUIPatient;
 
+import IOText.InputText;
 import Pojos.Patient;
 import java.util.Date;
 
@@ -12,13 +13,14 @@ import java.util.Date;
  *
  * @author diego
  */
-public class patientForm extends javax.swing.JFrame {
+public class PatientFormFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form patientInterface
-     */
-    public patientForm() {
+    Patient patient = null;
+    InputText inputText = new InputText();
+
+    public PatientFormFrame() {
         initComponents();
+
     }
 
     /**
@@ -47,6 +49,7 @@ public class patientForm extends javax.swing.JFrame {
         sexeField = new javax.swing.JTextField();
         doctorLabel = new javax.swing.JTextField();
         doctorField = new javax.swing.JTextField();
+        datosIntroducidosOK = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,7 +202,9 @@ public class patientForm extends javax.swing.JFrame {
                                     .addComponent(sexeField)
                                     .addComponent(ageField)
                                     .addComponent(doctorField))))
-                        .addGap(645, 645, 645))
+                        .addGap(117, 117, 117)
+                        .addComponent(datosIntroducidosOK, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(53, 53, 53))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(doctorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -210,7 +215,8 @@ public class patientForm extends javax.swing.JFrame {
                 .addGap(84, 84, 84)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(datosIntroducidosOK))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -292,6 +298,7 @@ public class patientForm extends javax.swing.JFrame {
     }//GEN-LAST:event_sexLabelActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        //create the patient
         String nameLabel = nameField.getText();
         String surnameLabel = surnameField.getText();
         Date dobLabel = dobChooser.getDate();
@@ -300,8 +307,22 @@ public class patientForm extends javax.swing.JFrame {
         Integer ageLabel = Integer.parseInt(ageField.getText());
         String sexeLabel = sexeField.getText();
         String doctorLabel = doctorField.getText();
-        Patient patient = new Patient(nameLabel, surnameLabel, dobLabel, addressLabel, emailLabel, ageLabel, sexeLabel, doctorLabel);
-        System.out.println(patient.toString());
+        this.patient = new Patient(nameLabel, surnameLabel, dobLabel, addressLabel, emailLabel, ageLabel, sexeLabel, doctorLabel);
+
+        //The data has been introduced correctly messageText
+        datosIntroducidosOK.setText("The data has been introduced correctly");
+
+        //Clean the fields
+        nameField.setText("");
+        surnameField.setText("");
+        dobChooser.setDate(null);
+        addressField.setText("");
+        emailField.setText("");
+        ageField.setText("");
+        sexeField.setText("");
+
+        //Write the Patient in a .txt
+        inputText.inputPatientDataText(patient);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sexeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexeFieldActionPerformed
@@ -333,21 +354,27 @@ public class patientForm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(patientForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientFormFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(patientForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientFormFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(patientForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientFormFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(patientForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PatientFormFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new patientForm().setVisible(true);
+                new PatientFormFrame().setVisible(true);
             }
         });
     }
@@ -357,6 +384,7 @@ public class patientForm extends javax.swing.JFrame {
     private javax.swing.JTextField addressLabel;
     private javax.swing.JTextField ageField;
     private javax.swing.JTextField ageLabel;
+    private javax.swing.JLabel datosIntroducidosOK;
     private com.toedter.calendar.JDateChooser dobChooser;
     private javax.swing.JTextField dobLabel;
     private javax.swing.JTextField doctorField;

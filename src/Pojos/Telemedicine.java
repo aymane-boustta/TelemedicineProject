@@ -17,5 +17,5 @@ public class Telemedicine {
     public static void main(String[] args) {
         // TODO code application logic here
     }
-    
+
 }

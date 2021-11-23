@@ -57,4 +57,32 @@ public class Patient implements Serializable {
         return "Patient{" + "id=" + id + ", name=" + name + ", surname=" + surname + ", dob=" + dob + ", address=" + address + ", email=" + email + ", medicalHistory=" + medicalHistory + ", age=" + age + ", sexe=" + sexe + ", doctor=" + doctor + '}';
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Date getDob() {
+        return dob;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getSexe() {
+        return sexe;
+    }
+
 }
