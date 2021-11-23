@@ -22,25 +22,34 @@ public class InputText {
 
         FileWriter file = null;
         PrintWriter pw = null;
-        try {
-            file = new FileWriter("PatientsDB/" + patient.getName() + ".txt");
-            pw = new PrintWriter(file);
 
-            pw.println(patient.getName());//name
-            pw.println(patient.getSurname());//surname
-            pw.println(patient.getDob());//dob
-            pw.println(patient.getAddress());//address
-            pw.println(patient.getEmail());//email
-            pw.println(patient.getAge());//age
-            pw.println(patient.getSexe());//sex
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
+        //check if the directory of the patient exists
+        File carpeta = new File("PatientsDB/" + patient.getName());
+        if (carpeta.exists()) {
+            System.out.println("Patient is already in the DB");
+        } else {
             try {
-                file.close();
+                File newCarpeta = new File("PatientsDB/" + patient.getName());
+                newCarpeta.mkdir();
+                file = new FileWriter("PatientsDB/" + patient.getName() + "/" + patient.getName() + ".txt");
+                pw = new PrintWriter(file);
+
+                pw.println(patient.getName());//name
+                pw.println(patient.getSurname());//surname
+                pw.println(patient.getDob());//dob
+                pw.println(patient.getAddress());//address
+                pw.println(patient.getEmail());//email
+                pw.println(patient.getAge());//age
+                pw.println(patient.getSexe());//sex
+
             } catch (IOException ex) {
                 ex.printStackTrace();
+            } finally {
+                try {
+                    file.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }
