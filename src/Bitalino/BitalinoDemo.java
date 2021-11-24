@@ -1,19 +1,17 @@
-package BITalino;
+package Bitalino;
 
-
+import IOText.InputText;
 import java.util.Vector;
-
-import javax.bluetooth.RemoteDevice;
-
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.bluetooth.RemoteDevice;
 
 public class BitalinoDemo {
 
     public static Frame[] frame;
+    public static InputText inputText = new InputText();
 
-    public static void main(String[] args) {
+    public static void startRecording() {
 
         BITalino bitalino = null;
         try {
@@ -25,26 +23,27 @@ public class BitalinoDemo {
 
             //You need TO CHANGE THE MAC ADDRESS
             //You should have the MAC ADDRESS in a sticker in the Bitalino
-            String macAddress = "20:16:02:14:75:76";
-            
+            String macAddress = "20:17:09:18:49:30";
+
             //Sampling rate, should be 10, 100 or 1000
             int SamplingRate = 10;
             bitalino.open(macAddress, SamplingRate);
 
             // Start acquisition on analog channels A2 and A6
             // For example, If you want A1, A3 and A4 you should use {0,2,3}
-            int[] channelsToAcquire = {1, 5};
+            int[] channelsToAcquire = {1};
             bitalino.start(channelsToAcquire);
 
             //Read in total 10000000 times
-            for (int j = 0; j < 10000000; j++) {
+            for (int j = 0; j < 20; j++) {
 
-                //Each time read a block of 10 samples 
-                int block_size=10;
+                //Each time read a block of 10 samples
+                int block_size = 10;
                 frame = bitalino.read(block_size);
 
-                System.out.println("size block: " + frame.length);
+                //System.out.println("size block: " + frame.length);
 
+                /*
                 //Print the samples
                 for (int i = 0; i < frame.length; i++) {
                     System.out.println((j * block_size + i) + " seq: " + frame[i].seq + " "
@@ -57,7 +56,11 @@ public class BitalinoDemo {
                     );
 
                 }
+                 */
+                inputText.inputBitalinoDataText(frame);
+
             }
+
             //stop acquisition
             bitalino.stop();
         } catch (BITalinoException ex) {

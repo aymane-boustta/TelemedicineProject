@@ -1,4 +1,4 @@
-package BITalino;
+package Bitalino;
 
 public class BITalinoException extends java.lang.Exception {
 	

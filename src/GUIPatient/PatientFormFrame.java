@@ -18,6 +18,7 @@ public class PatientFormFrame extends javax.swing.JFrame {
     Patient patient = null;
     InputText inputText = new InputText();
 
+    // MI SOCKET, INPUTSTREAM, LO QUE NECESITE...
     public PatientFormFrame() {
         initComponents();
 
@@ -323,6 +324,8 @@ public class PatientFormFrame extends javax.swing.JFrame {
 
         //Write the Patient in a .txt
         inputText.inputPatientDataText(patient);
+
+        // OK, DATOS ENVIADOS, REDIRECCION, etc...
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void sexeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexeFieldActionPerformed
@@ -374,6 +377,7 @@ public class PatientFormFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                // iniciar la conexion
                 new PatientFormFrame().setVisible(true);
             }
         });

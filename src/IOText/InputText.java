@@ -5,6 +5,7 @@
  */
 package IOText;
 
+import Bitalino.Frame;
 import Pojos.Patient;
 import java.io.*;
 
@@ -42,6 +43,7 @@ public class InputText {
                 pw.println(patient.getAge());//age
                 pw.println(patient.getSexe());//sex
 
+                // lo envio en un socket que recibo como parametro.
             } catch (IOException ex) {
                 ex.printStackTrace();
             } finally {
@@ -55,7 +57,25 @@ public class InputText {
     }
 
     //Metodo para escribir las señales bitalino en el .txt (UNA SEÑAL POR FICHERO)
-    public void inputBitalinoDataText() {
+    public void inputBitalinoDataText(Frame[] frame) {
+        FileWriter file = null;
+        PrintWriter pw = null;
 
+        try {
+            file = new FileWriter("PatientsDB/signal.txt", true);
+            pw = new PrintWriter(file);
+            for (int i = 0; i < frame.length; i++) {
+                System.out.println(String.valueOf(frame[i].analog[0]));
+                pw.println(String.valueOf(frame[i].analog[0]));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                file.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 }

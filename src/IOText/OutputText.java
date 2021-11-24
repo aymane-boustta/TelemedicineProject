@@ -21,7 +21,8 @@ public class OutputText {
 
     //Recibe un file y crea el objeto patient. return Patient
     public Patient outputPatientDataText(String fileName) {
-        File file = new File("PatientsDB/" + fileName + ".txt");
+
+        File file = new File("PatientsDB/" + fileName + "/" + fileName + ".txt");
         FileReader fr = null;
         try {
             fr = new FileReader(file);
