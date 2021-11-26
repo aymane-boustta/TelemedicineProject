@@ -39,8 +39,28 @@ public class BitalinoDemo {
 
                 //Each time read a block of 10 samples
                 int block_size = 10;
-                frame = bitalino.read(block_size);
-
+                frame = bitalino.read(block_size); 
+                // 
+           
+                /*******
+                 
+                 
+                 
+                 
+                 ************
+                 
+                 
+                 LLAMAR AL METODO INPUTTEXT 
+                 
+                 
+                 
+                 ***************
+                 
+                 GUARDRA TODO EN EL FICHERO   
+                 
+                 
+                 
+                 ************/
                 //System.out.println("size block: " + frame.length);
 
                 /*
