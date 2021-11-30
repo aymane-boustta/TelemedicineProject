@@ -18,6 +18,7 @@ public class InputText {
     public InputText() {
     }
 
+    //Crear metodo para escribir guardar conjtraseña referenciada a Dna en el servidor
     //Metodo para escribir Patient en .txt
     public void inputPatientDataText(Patient patient) {
 
@@ -54,6 +55,37 @@ public class InputText {
                 }
             }
         }
+    }
+
+    public void inputPassword(String encodedPassword, String Dni) {
+        FileWriter file = null;
+        PrintWriter pw = null;
+
+        //Chech if the patient is already registered
+        File passwordFile = new File("PasswordDB/" + Dni);
+        if (passwordFile.exists()) {
+            System.out.println("Not possible to store the password, this patient already exists");
+        } else {
+            try {
+                //tools to write in a txt file
+                File newFile = new File("PasswordDB/" + Dni);
+                newFile.mkdir();
+                file = new FileWriter("PasswordDB/" + Dni + "/" + Dni + ".txt");
+                pw = new PrintWriter(file);
+                pw.println(encodedPassword);
+
+                //send through socket
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } finally {
+                try {
+                    file.close();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
     }
 
     //Metodo para escribir las señales bitalino en el .txt (UNA SEÑAL POR FICHERO)

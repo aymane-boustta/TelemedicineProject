@@ -7,7 +7,14 @@ package GUIPatient;
 
 import IOText.InputText;
 import Pojos.Patient;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +24,7 @@ public class PatientFormFrame extends javax.swing.JFrame {
 
     Patient patient = null;
     InputText inputText = new InputText();
+    String codedPassword = "";
 
     // MI SOCKET, INPUTSTREAM, LO QUE NECESITE...
     public PatientFormFrame() {
@@ -51,6 +59,8 @@ public class PatientFormFrame extends javax.swing.JFrame {
         doctorLabel = new javax.swing.JTextField();
         doctorField = new javax.swing.JTextField();
         datosIntroducidosOK = new javax.swing.JLabel();
+        paswordLabel = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,6 +173,14 @@ public class PatientFormFrame extends javax.swing.JFrame {
             }
         });
 
+        paswordLabel.setEditable(false);
+        paswordLabel.setText("Pasword: ");
+        paswordLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                paswordLabelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -175,40 +193,39 @@ public class PatientFormFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(52, 52, 52)
-                                .addComponent(emailField))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dobLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(52, 52, 52)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(surnameField)
-                                    .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(dobChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(52, 52, 52)
-                                .addComponent(addressField))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sexLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(52, 52, 52)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sexeField)
-                                    .addComponent(ageField)
-                                    .addComponent(doctorField))))
-                        .addGap(117, 117, 117)
-                        .addComponent(datosIntroducidosOK, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53))
+                        .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(emailField))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(doctorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(surnameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dobLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(surnameField)
+                            .addComponent(nameField, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(dobChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(addressField))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(sexLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(paswordLabel, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(doctorLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
+                        .addGap(52, 52, 52)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sexeField)
+                            .addComponent(ageField)
+                            .addComponent(doctorField)
+                            .addComponent(txtPassword))))
+                .addGap(117, 117, 117)
+                .addComponent(datosIntroducidosOK, javax.swing.GroupLayout.PREFERRED_SIZE, 475, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +263,11 @@ public class PatientFormFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(doctorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(doctorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(paswordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
                 .addComponent(jButton1)
                 .addGap(59, 59, 59))
         );
@@ -310,6 +331,14 @@ public class PatientFormFrame extends javax.swing.JFrame {
         String doctorLabel = doctorField.getText();
         this.patient = new Patient(nameLabel, surnameLabel, dobLabel, addressLabel, emailLabel, ageLabel, sexeLabel, doctorLabel);
 
+        //get the password created
+        String secretKey = "had";
+        String password = txtPassword.getText();
+        String encodedPassword = encodePassword(secretKey, password);
+        System.out.println(encodedPassword);
+        String deencodedPassword = decodePassword(secretKey, encodedPassword);
+        System.out.println(deencodedPassword);
+
         //The data has been introduced correctly messageText
         datosIntroducidosOK.setText("The data has been introduced correctly");
 
@@ -321,9 +350,12 @@ public class PatientFormFrame extends javax.swing.JFrame {
         emailField.setText("");
         ageField.setText("");
         sexeField.setText("");
+        txtPassword.setText("");
 
-        //Write the Patient in a .txt
+        //Write the Patient and Passord in a .txt
         inputText.inputPatientDataText(patient);
+        inputText.inputPassword(encodedPassword, nameLabel);
+        System.out.println(patient);
 
         // OK, DATOS ENVIADOS, REDIRECCION, etc...
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -339,6 +371,10 @@ public class PatientFormFrame extends javax.swing.JFrame {
     private void doctorFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doctorFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_doctorFieldActionPerformed
+
+    private void paswordLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paswordLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_paswordLabelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,9 +434,55 @@ public class PatientFormFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField nameLabel;
+    private javax.swing.JTextField paswordLabel;
     private javax.swing.JTextField sexLabel;
     private javax.swing.JTextField sexeField;
     private javax.swing.JTextField surnameField;
     private javax.swing.JTextField surnameLabel;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
+
+    public String encodePassword(String key, String cadena) {
+        String encription = "";
+        try {
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] keyPassword = md5.digest(key.getBytes("utf-8"));//utf in case there are dashe or something other than characters
+            byte[] copyKeyPassword = Arrays.copyOf(keyPassword, 24);
+            SecretKey secretKey = new SecretKeySpec(copyKeyPassword, "DESede");
+            Cipher cipher = Cipher.getInstance("DESede");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+
+            //encrptacion
+            byte[] bytePassword = cadena.getBytes("utf-8");
+            byte[] buffer = cipher.doFinal(bytePassword);
+            byte[] base64Bytes = Base64.getEncoder().encode(buffer);
+            encription = new String(base64Bytes);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Something went wrong");
+        }
+        return encription;
+    }
+
+    public String decodePassword(String key, String encriptedStrig) {
+        String decoded = "";
+        try {
+            byte[] password = Base64.getDecoder().decode(encriptedStrig.getBytes("utf-8"));
+            MessageDigest md5 = MessageDigest.getInstance("MD5");//tipo de encriptacion
+            byte[] digestOfPassword = md5.digest(key.getBytes("utf-8"));
+            byte[] copydigestOfPassword = Arrays.copyOf(digestOfPassword, 24);
+            SecretKey secretKey = new SecretKeySpec(copydigestOfPassword, "DESede");
+            Cipher decipher = Cipher.getInstance("DESede");
+            decipher.init(Cipher.DECRYPT_MODE, secretKey);
+
+            //desencryptado
+            byte[] bytePassword = decipher.doFinal(password);
+            decoded = new String(bytePassword, "utf-8");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Something went wrong");
+        }
+        return decoded;
+    }
+
 }

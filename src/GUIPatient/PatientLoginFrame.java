@@ -99,6 +99,7 @@ public class PatientLoginFrame extends javax.swing.JFrame {
 
         String Pass = new String(Password.getPassword());
         if (Pass.equals(password) && txtDNI.getText().equals(DNI)) {
+            //usar un if para abrir el frame del doctor o patient
             //open frame to record a new signal
             PatientInterfaceFrame PI = new PatientInterfaceFrame();
             PI.setVisible(true);
