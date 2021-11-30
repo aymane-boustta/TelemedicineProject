@@ -23,13 +23,13 @@ public class Patient {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         Socket socket = null;
 
-        socket = new Socket("localhost", 4444);
+        socket = new Socket("localhost", 9000);
 
-        File file = new File("PatientsDB/");
+        File file = new File("PatientsDB/signal.txt");
         // Get the size of the file
         long length = file.length();
         byte[] bytes = new byte[16 * 1024];
@@ -39,6 +39,7 @@ public class Patient {
         int count;
         while ((count = in.read(bytes)) > 0) {
             out.write(bytes, 0, count);
+            Thread.sleep(30000);
         }
 
         releaseResources(out, in, socket);
