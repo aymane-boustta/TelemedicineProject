@@ -88,26 +88,5 @@ public class InputText {
 
     }
 
-    //Metodo para escribir las señales bitalino en el .txt (UNA SEÑAL POR FICHERO)
-    public void inputBitalinoDataText(Frame[] frame) {
-        FileWriter file = null;
-        PrintWriter pw = null;
-
-        try {
-            file = new FileWriter("PatientsDB/signal.txt", true);
-            pw = new PrintWriter(file);
-            for (int i = 0; i < frame.length; i++) {
-                System.out.println(String.valueOf(frame[i].analog[0]));
-                pw.println(String.valueOf(frame[i].analog[0]));
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                file.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
-    }
+    
 }
