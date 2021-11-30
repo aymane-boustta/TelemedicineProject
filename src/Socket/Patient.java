@@ -5,17 +5,10 @@
  */
 package Socket;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
@@ -31,50 +24,50 @@ public class Patient {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
-        
-        String fileName;
-        
-        int byteRead;
-        Socket socket = new Socket("localhost", 9000);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Introduce the name of file you want to send to the doctor");
-        fileName = reader.readLine();
-        fileName.toLowerCase();
-        byte [] bytes = new byte[(int) fileName.length()];
-        InputStream in = new FileInputStream(fileName);
+
+        Socket socket = null;
+
+        socket = new Socket("localhost", 4444);
+
+        File file = new File("PatientsDB/");
+        // Get the size of the file
+        long length = file.length();
+        byte[] bytes = new byte[16 * 1024];
+        InputStream in = new FileInputStream(file);
         OutputStream out = socket.getOutputStream();
-        while((byteRead = in.read(bytes)) > 0){
-            out.write(bytes, 0, byteRead);
+
+        int count;
+        while ((count = in.read(bytes)) > 0) {
+            out.write(bytes, 0, count);
         }
+
         releaseResources(out, in, socket);
-        
-        
 
     }
+
     private static void releaseResources(OutputStream outputStream,
             InputStream console, Socket socket) {
         try {
             try {
                 console.close();
             } catch (IOException ex) {
-               Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-            
+
             try {
                 outputStream.close();
             } catch (IOException ex) {
-              Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
 
             }
-            
-            
+
             socket.close();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Patient.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }
 
 }
