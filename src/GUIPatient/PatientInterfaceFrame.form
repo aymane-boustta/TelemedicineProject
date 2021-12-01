@@ -23,15 +23,21 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="welcomeClientLabel" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="buttonStartRecording" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
+                      <Component id="statusMsgTextField" min="-2" pref="518" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="84" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="welcomeClientLabel" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-              <Component id="buttonStartRecording" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="667" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -41,7 +47,10 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="welcomeClientLabel" min="-2" pref="24" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
-              <Component id="buttonStartRecording" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="buttonStartRecording" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="statusMsgTextField" alignment="3" min="-2" pref="29" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace pref="515" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -56,6 +65,12 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonStartRecordingActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="buttonStartRecordingKeyPressed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="statusMsgTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statusMsgTextFieldActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

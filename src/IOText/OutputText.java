@@ -32,6 +32,7 @@ public class OutputText {
         BufferedReader br = new BufferedReader(fr);
 
         try {
+            String dni = br.readLine();
             String name = br.readLine();
             String surname = br.readLine();
             DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
@@ -42,7 +43,7 @@ public class OutputText {
             String sexe = br.readLine();
             String doctor = br.readLine();
 
-            Patient patient = new Patient(name, surname, dob, address, email, age, sexe, doctor);
+            Patient patient = new Patient(dni, name, surname, dob, address, email, age, sexe);
             System.out.println(patient.toString());
 
         } catch (IOException ex) {

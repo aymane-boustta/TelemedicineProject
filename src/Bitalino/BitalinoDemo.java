@@ -1,9 +1,9 @@
 package Bitalino;
 
 import IOText.InputText;
+import Socket.PatientSocket;
+import java.io.*;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.bluetooth.RemoteDevice;
 
 public class BitalinoDemo {
@@ -11,11 +11,19 @@ public class BitalinoDemo {
     public static Frame[] frame;
     public static InputText inputText = new InputText();
 
-    public static void startRecording() {
-
+    public String startRecording() {
+        PatientSocket patientSocket = null;
         BITalino bitalino = null;
+        FileWriter fileWriter = null;
+
+        PrintWriter pw = null;
         try {
             bitalino = new BITalino();
+
+            fileWriter = new FileWriter("PatientsDB/signalprueba.txt");
+
+            pw = new PrintWriter(fileWriter);
+
             // Code to find Devices
             //Only works on some OS
             Vector<RemoteDevice> devices = bitalino.findDevices();
@@ -23,7 +31,7 @@ public class BitalinoDemo {
 
             //You need TO CHANGE THE MAC ADDRESS
             //You should have the MAC ADDRESS in a sticker in the Bitalino
-            String macAddress = "20:17:09:18:49:30";
+            String macAddress = "98:D3:51:FD:9C:72";
 
             //Sampling rate, should be 10, 100 or 1000
             int SamplingRate = 10;
@@ -35,69 +43,64 @@ public class BitalinoDemo {
             bitalino.start(channelsToAcquire);
 
             //Read in total 10000000 times
-            for (int j = 0; j < 20; j++) {
+            for (int j = 0; j < 50; j++) {
 
                 //Each time read a block of 10 samples
                 int block_size = 10;
-                frame = bitalino.read(block_size); 
-                // 
-           
-                /*******
-                 
-                 
-                 
-                 
-                 ************
-                 
-                 
-                 LLAMAR AL METODO INPUTTEXT 
-                 
-                 
-                 
-                 ***************
-                 
-                 GUARDRA TODO EN EL FICHERO   
-                 
-                 
-                 
-                 ************/
-                //System.out.println("size block: " + frame.length);
+                frame = bitalino.read(block_size);
 
-                /*
                 //Print the samples
                 for (int i = 0; i < frame.length; i++) {
-                    System.out.println((j * block_size + i) + " seq: " + frame[i].seq + " "
-                            + frame[i].analog[0] + " "
-                            + frame[i].analog[1] + " "
+                    //System.out.println((j * block_size + i) + " seq: " + frame[i].seq + " "
+                    //       + frame[i].analog[0] + " "
+                    //        + frame[i].analog[1] + " "
                     //  + frame[i].analog[2] + " "
                     //  + frame[i].analog[3] + " "
                     //  + frame[i].analog[4] + " "
                     //  + frame[i].analog[5]
-                    );
-
+                    //);
+                    pw.println(frame[i].analog[0]);
                 }
-                 */
-                inputText.inputBitalinoDataText(frame);
 
             }
 
             //stop acquisition
             bitalino.stop();
         } catch (BITalinoException ex) {
-            Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
+            return "Something has gone wrong";
         } catch (Throwable ex) {
-            Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
+            return "Something has gone wrong";
         } finally {
             try {
                 //close bluetooth connection
                 if (bitalino != null) {
                     bitalino.close();
                 }
+
             } catch (BITalinoException ex) {
-                Logger.getLogger(BitalinoDemo.class.getName()).log(Level.SEVERE, null, ex);
+                return "Something has gone wrong";
+            }
+            try {
+                fileWriter.close();
+                String msg = sendFile();
+                return msg;
+            } catch (IOException ex) {
+                return "Something has gone wrong";
+
             }
         }
-
     }
 
+    public String sendFile() {
+        PatientSocket patientSocket = new PatientSocket();
+        File file = new File("PatientsDB/signalprueba.txt");
+        try {
+            patientSocket.sendFile(file);
+        } catch (IOException ex) {
+            return "Something has gone wrong";
+        } catch (InterruptedException ex) {
+            return "Something has gone wrong";
+        }
+        return "The information has been recorded and sent to the doctor correctly";
+    }
 }

@@ -5,8 +5,8 @@
  */
 package IOText;
 
-import Bitalino.Frame;
 import Pojos.Patient;
+import Socket.PatientSocket;
 import java.io.*;
 
 /**
@@ -22,7 +22,8 @@ public class InputText {
     //Metodo para escribir Patient en .txt
     public void inputPatientDataText(Patient patient) {
 
-        FileWriter file = null;
+        PatientSocket patientSocket = null;
+        FileWriter fileWriter = null;
         PrintWriter pw = null;
 
         //check if the directory of the patient exists
@@ -33,8 +34,9 @@ public class InputText {
             try {
                 File newCarpeta = new File("PatientsDB/" + patient.getName());
                 newCarpeta.mkdir();
-                file = new FileWriter("PatientsDB/" + patient.getName() + "/" + patient.getName() + ".txt");
-                pw = new PrintWriter(file);
+                fileWriter = new FileWriter("PatientsDB/" + patient.getName() + "/" + patient.getName() + ".txt");
+
+                pw = new PrintWriter(fileWriter);
 
                 pw.println(patient.getName());//name
                 pw.println(patient.getSurname());//surname
@@ -49,12 +51,15 @@ public class InputText {
                 ex.printStackTrace();
             } finally {
                 try {
-                    file.close();
+                    fileWriter.close();
+                    patientSocket = new PatientSocket();
                 } catch (IOException ex) {
                     ex.printStackTrace();
+
                 }
             }
         }
+
     }
 
     public void inputPassword(String encodedPassword, String Dni) {
@@ -88,5 +93,4 @@ public class InputText {
 
     }
 
-    
 }

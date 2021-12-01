@@ -35,6 +35,7 @@ public class PatientInterfaceFrame extends javax.swing.JFrame {
 
         welcomeClientLabel = new javax.swing.JLabel();
         buttonStartRecording = new javax.swing.JButton();
+        statusMsgTextField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -44,19 +45,34 @@ public class PatientInterfaceFrame extends javax.swing.JFrame {
                 buttonStartRecordingActionPerformed(evt);
             }
         });
+        buttonStartRecording.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                buttonStartRecordingKeyPressed(evt);
+            }
+        });
+
+        statusMsgTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusMsgTextFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(welcomeClientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(welcomeClientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addComponent(buttonStartRecording)
+                        .addGap(50, 50, 50)
+                        .addComponent(statusMsgTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 518, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 84, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(buttonStartRecording)
-                .addContainerGap(667, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -64,7 +80,9 @@ public class PatientInterfaceFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(welcomeClientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(57, 57, 57)
-                .addComponent(buttonStartRecording)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(buttonStartRecording)
+                    .addComponent(statusMsgTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(515, Short.MAX_VALUE))
         );
 
@@ -74,8 +92,17 @@ public class PatientInterfaceFrame extends javax.swing.JFrame {
     private void buttonStartRecordingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonStartRecordingActionPerformed
         // TODO add your handling code here:
         bitalino = new BitalinoDemo();
-        bitalino.startRecording();
+        String statusMsg = bitalino.startRecording();
+        statusMsgTextField.setText(statusMsg);
     }//GEN-LAST:event_buttonStartRecordingActionPerformed
+
+    private void statusMsgTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusMsgTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusMsgTextFieldActionPerformed
+
+    private void buttonStartRecordingKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buttonStartRecordingKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_buttonStartRecordingKeyPressed
 
     /**
      * @param args the command line arguments
@@ -115,6 +142,7 @@ public class PatientInterfaceFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonStartRecording;
+    private javax.swing.JTextField statusMsgTextField;
     private javax.swing.JLabel welcomeClientLabel;
     // End of variables declaration//GEN-END:variables
 }
